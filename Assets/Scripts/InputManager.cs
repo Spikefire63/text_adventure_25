@@ -37,7 +37,7 @@ public class InputManager : MonoBehaviour
         commands.Add("go");
         commands.Add("get");
         commands.Add("grab");
-        commands.Remove("use");
+        //commands.Remove("use");
 
         userInput.onEndEdit.AddListener(GetInput);
      //   abutton.onClick.AddListener(DoSomething);
