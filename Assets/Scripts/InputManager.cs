@@ -12,9 +12,7 @@ public class InputManager : MonoBehaviour
     public Text storyText; // the story 
     public InputField userInput; // the input field object
     public Text inputText; // part of the input field where user enters response
-    public Text placeHolderText; // part of the input field for initial placeholder text
-    public Button helpButton; // The Help button
-    public Text helpText; // The text that displays the list of commands
+    public Text placeHolderText; // part of the input field for initial placeholder tex
 
     public delegate void Restart();
     public event Restart onRestart;
@@ -43,7 +41,6 @@ public class InputManager : MonoBehaviour
         commands.Add("inventory");
         //commands.Remove("use");
 
-        helpButton.onClick.AddListener(OnHelpButtonClicked);
         userInput.onEndEdit.AddListener(GetInput);
      //   abutton.onClick.AddListener(DoSomething);
         story = storyText.text;
@@ -112,14 +109,23 @@ public class InputManager : MonoBehaviour
                 }
                 else if (parts[0] == "inventory")
                 {
-                    if (GameManager.instance.inventory.Count > 0)
+                    msg = "You have a(n) ";
+
+                    if (GameManager.instance.inventory.Count == 0)
                     {
-                        UpdateStory("You have a(n) " + string.Join(", ", GameManager.instance.inventory));
+                        msg = "You have nothing in your inventory.";
                     }
                     else
                     {
-                        UpdateStory("You have nothing in your inventory.");
+                        foreach (string item in GameManager.instance.inventory)
+                        {
+                            msg += item + ", ";
+                        }
+
+                        msg = msg.TrimEnd(',', ' ');
                     }
+                    // Update the story with the final message
+                    UpdateStory(msg);
                 }
 
                 //else if (parts[0] == "use")
@@ -134,11 +140,6 @@ public class InputManager : MonoBehaviour
         }
         userInput.text = "";
         userInput.ActivateInputField();
-
-    }
-    void OnHelpButtonClicked()
-    {
-        UpdateStory("Use the command 'commands' to see the list of available commands.");
     }
 }
 

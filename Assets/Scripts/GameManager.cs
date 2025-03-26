@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         InputManager.instance.onRestart += ResetGame; // ResetGame() will be the code to respond to event
+        Load();
     }
 
     void Load()
@@ -32,17 +33,16 @@ public class GameManager : MonoBehaviour
         {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream afile = File.Open(Application.persistentDataPath + "/Player.save", FileMode.Open);
-            SaveState playerData = (SaveState)bf.Deserialize(afile);
+            SaveState playerData = (SaveState) bf.Deserialize(afile);
             afile.Close();
+
+            inventory = playerData.inventory;
 
             Room room = NavManager.instance.GetRoomFromName(playerData.currentRoom);
             if (room != null)
             {
                 NavManager.instance.SwitchRoom(room);
             }
-
-            //load the inventory
-            inventory = new List<string>(playerData.inventory);
         }
         else
         {
@@ -60,10 +60,10 @@ public class GameManager : MonoBehaviour
         //set up data to save
         SaveState playerState = new SaveState();
         playerState.currentRoom = NavManager.instance.currentRoom.name;
-        playerState.inventory = new List<string>(inventory);
+        playerState.inventory = inventory;
 
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream afile = File.Create(Application.persistentDataPath + "/player.save");
+        FileStream afile = File.Create(Application.persistentDataPath + "/Player.save");
         Debug.Log(Application.persistentDataPath);
         bf.Serialize(afile, playerState);
         afile.Close();

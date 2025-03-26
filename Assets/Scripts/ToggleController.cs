@@ -20,7 +20,7 @@ public class ToggleController : MonoBehaviour
         //darkMode = toggle.isOn;
         int pref = PlayerPrefs.GetInt("theme", 1);
 
-        if(pref == 1)
+        if (pref == 1)
         {
             toggle.isOn = true;
             darkMode = true;

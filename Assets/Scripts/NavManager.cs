@@ -63,7 +63,6 @@ public class NavManager : MonoBehaviour
         if(exitRooms.Count == 0)
             if(onGameOver != null)//is anyone listening
             onGameOver();//invoking the event
-
     }
 
     public bool SwitchRoom(string direction)
@@ -89,11 +88,11 @@ public class NavManager : MonoBehaviour
         Unpack();
     }
 
-    Exit getExit(string drirection)
+    Exit getExit(string direction)
     {
         foreach( Exit e in currentRoom.exits)
         {
-            if (e.direction.ToString() == drirection)
+            if (e.direction.ToString() == direction)
                 return e; // returns exit
         }
         return null;
@@ -114,10 +113,10 @@ public class NavManager : MonoBehaviour
 
     public Room GetRoomFromName(string name)
     {
-        foreach(Room aRoom in rooms)
+        foreach(Room room in rooms)
         {
-            if(aRoom.name == name)
-                return aRoom;
+            if(room.name == name)
+                return room;
         }
         return null;
     }
