@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class ButtonController : MonoBehaviour
 {
-    public Button helpButton; // The Help button
-    public Text helpText; // The text that displays the list of commands
+    public Button helpButton; //the button
+    public Text helpText; // desplay the help text
     
     void Start()
     {

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class fontController : MonoBehaviour
 {
     public Text displayText;
-    public Text placeHolderText; // part of the input field for initial placeholder text
+    public Text placeHolderText;
     public Text playerText;
     public Slider slider;
 
@@ -14,8 +14,10 @@ public class fontController : MonoBehaviour
    
     void Start()
     {
+        //set defult font
         fontSize = PlayerPrefs.GetFloat("fontSize", 14f);
 
+        //created restraints for the font size
         slider.minValue = 14f;
         slider.maxValue = 28f;
 
@@ -26,9 +28,11 @@ public class fontController : MonoBehaviour
     void UpdateFontSize(float value)
     {
         fontSize = value;
-        PlayerPrefs.SetFloat("fontSize", fontSize); // Save the font size to PlayerPrefs
 
-        // Apply the new font size to all text components
+        // Save the font size
+        PlayerPrefs.SetFloat("fontSize", fontSize);
+
+        // changes the size of all the text.
         displayText.fontSize = (int)value;
         placeHolderText.fontSize = (int)value;
         playerText.fontSize = (int)value;
