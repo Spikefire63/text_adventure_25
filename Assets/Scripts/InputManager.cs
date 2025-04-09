@@ -58,7 +58,7 @@ public class InputManager : MonoBehaviour
     
     public void UpdateStory(string msg)
     {
-        story = "\n" + msg;
+        story += "\n" + msg;
         storyText.text = story;
     }
 
