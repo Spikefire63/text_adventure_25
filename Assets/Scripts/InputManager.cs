@@ -16,7 +16,7 @@ public class InputManager : MonoBehaviour
 
     public delegate void Restart();
     public event Restart onRestart;
-    //public InputField abutton;
+
     private string story; // holds the story to display
     private List<string> commands = new List<string>();// valid user commands
 
@@ -32,10 +32,10 @@ public class InputManager : MonoBehaviour
 
     void Start()
     {
+        //list of all available commands
         commands.Add("restart");
         commands.Add("save");
         commands.Add("go");
-        commands.Add("get");
         commands.Add("grab");
         commands.Add("commands");
         commands.Add("inventory");
@@ -47,21 +47,20 @@ public class InputManager : MonoBehaviour
         NavManager.instance.onGameOver += EndGame; // funtion to call when event occurs
     }
 
+    //end game function
     void EndGame()
     {
         UpdateStory("\nPlease enter 'restart' to play again.");
     }
-    //void DoSOmething()
-    //{
-    //    Debug.Log("Button clicked!");
-    //}
     
+    //updates the story with a double space for clear view of text
     public void UpdateStory(string msg)
     {
-        story += "\n" + msg;
+        story += "\n \n" + msg;
         storyText.text = story;
     }
 
+    //list of the commands fuctions
     void GetInput(string msg)
     {
         if (msg != "")
@@ -71,6 +70,7 @@ public class InputManager : MonoBehaviour
 
             if (commands.Contains(parts[0])) //if valid command
             {
+                //command function for "go" direction
                 if (parts[0] == "go")
                 {
                     if (NavManager.instance.SwitchRoom(parts[1])) // returns true if direction exits
@@ -82,6 +82,8 @@ public class InputManager : MonoBehaviour
                         UpdateStory("Exit does not exist or is locked. Try again.");
                     }
                 }
+
+                //command function for "go" direction
                 else if (parts[0] == "grab")
                 {
                     if (NavManager.instance.TakeItem(parts[1]))
@@ -94,19 +96,27 @@ public class InputManager : MonoBehaviour
                         UpdateStory("Sorry, " + parts[1] + " does not exist in this room.");
                     }
                 }
+
+                //command function for "restart" for when the player falls into a trap
                 else if (parts[0] == "restart")
                 {
                     if (onRestart != null) // if anyone is listening
                         onRestart(); // invoke the event
                 }
+
+                //command function for "save" for saving the gamestate
                 else if (parts[0] == "save")
                 {
                     GameManager.instance.Save();
                 }
+
+                //command function for "commands" that shows the full list of commands to the player
                 else if (parts[0] == "commands")
                 {
                     UpdateStory(string.Join(", ", commands));
                 }
+
+                //command function for "inventory" to view your inventory in game
                 else if (parts[0] == "inventory")
                 {
                     msg = "You have a(n) ";
@@ -127,6 +137,9 @@ public class InputManager : MonoBehaviour
                     // Update the story with the final message
                     UpdateStory(msg);
                 }
+
+                //This is a function i want to eventually implement correctly where the player
+                //has to use the items the collect around the map to access new locations.
 
                 //else if (parts[0] == "use")
                 //{

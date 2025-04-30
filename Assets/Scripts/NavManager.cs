@@ -15,8 +15,10 @@ public class NavManager : MonoBehaviour
     public delegate void GameOver();
     public event GameOver onGameOver;
 
-    public Exit toKeyNorth;
+    //seperate public for locked room that leads to the key for exit
+    public Exit Northpath;
 
+    //dicionary of all exits
     private Dictionary<string, Room> exitRooms = new Dictionary<string, Room>();
 
     private void Awake()
@@ -31,16 +33,13 @@ public class NavManager : MonoBehaviour
     void Start()
     {
         InputManager.instance.onRestart += ResetGame;
-        //Debug.Log(startingRoom.description);
-        //toKeyNorth.isHidden = true;
-        //currentRoom = startingRoom;
-        //Unpack();
         ResetGame();
     }
 
+    //Resets the game back to original state
     public void ResetGame()
     {
-        toKeyNorth.isHidden = true;
+        Northpath.isHidden = true;
         currentRoom = startingRoom;
         Unpack();
     }
@@ -88,6 +87,7 @@ public class NavManager : MonoBehaviour
         Unpack();
     }
 
+    //get the exit from the dictionary
     Exit getExit(string direction)
     {
         foreach( Exit e in currentRoom.exits)
@@ -98,19 +98,21 @@ public class NavManager : MonoBehaviour
         return null;
     }
 
+    //when having the items, unlock the corresponding door 
     public bool TakeItem(string item)
     {
         if (item == "key" && currentRoom.hasKey)
             return true;
         else if (item == "orb" && currentRoom.hasOrb)
         {
-            toKeyNorth.isHidden = false;
+            Northpath.isHidden = false;
             return true;
         }
         else
             return false;
     }
 
+    //getting the room name from the list
     public Room GetRoomFromName(string name)
     {
         foreach(Room room in rooms)
@@ -120,6 +122,8 @@ public class NavManager : MonoBehaviour
         }
         return null;
     }
+
+    //More of the Use function i will be implementing at a later time
 
     //public bool UseItem(string item, string direction)
     //{
